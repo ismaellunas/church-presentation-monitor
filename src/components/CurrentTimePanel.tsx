@@ -32,7 +32,7 @@ export function CurrentTimePanel({ now, hour12, background }: Props) {
         Current Time
       </div>
       <div className="flex items-baseline gap-[1.5vh] font-mono font-bold tracking-tight leading-none">
-        <span className="text-[14vh]">{timePart}</span>
+        <span className="text-[21vh]">{timePart}</span>
         {periodPart && <span className="text-[5vh]">{periodPart}</span>}
       </div>
     </section>

@@ -50,7 +50,7 @@ export function CountdownPanel({
         </div>
       )}
 
-      <div className="font-mono font-bold tracking-tight leading-none text-[14vh]">
+      <div className="font-mono font-bold tracking-tight leading-none text-[21vh]">
         {formatDuration(displayMs)}
       </div>
 
