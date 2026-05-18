@@ -1,4 +1,4 @@
-# Church Stage Monitor
+# Church Stage Monitor v2
 
 An on-stage countdown and screen-mirror app for live church services. Designed
 for a Chrome browser cast to a TV via Chromecast, and optionally installed as
