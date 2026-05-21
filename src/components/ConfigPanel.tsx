@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { PersistedSettings, TimerStatus, TimerMode } from '../types';
 import {
   CURRENT_TIME_SWATCHES,
@@ -352,8 +352,127 @@ export function ConfigPanel({
 
         <footer className="mt-6 border-t border-zinc-800 pt-4">
           <KeyboardShortcuts />
+          <div className="mt-4 flex justify-end gap-2">
+            <OwnershipInfoButton />
+            <a
+              href="https://www.facebook.com/greatemmanuel.worshipchurch/"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="GEWCI on Facebook"
+              aria-label="GEWCI on Facebook"
+              className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-zinc-800 text-zinc-200 transition-colors hover:bg-[#1877F2] hover:text-white"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="h-4 w-4"
+                aria-hidden
+              >
+                <path d="M22 12.06C22 6.51 17.52 2 12 2S2 6.51 2 12.06C2 17.08 5.66 21.24 10.44 22v-7.03H7.9v-2.91h2.54V9.85c0-2.52 1.49-3.91 3.78-3.91 1.09 0 2.24.2 2.24.2v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.77l-.44 2.91h-2.33V22C18.34 21.24 22 17.08 22 12.06Z" />
+              </svg>
+            </a>
+            <a
+              href="https://www.facebook.com/ElCajoOfficial"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Developer — El Cajo"
+              aria-label="Developer — El Cajo"
+              className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-zinc-800 text-zinc-200 transition-colors hover:bg-emerald-600 hover:text-white"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-4 w-4"
+                aria-hidden
+              >
+                <polyline points="16 18 22 12 16 6" />
+                <polyline points="8 6 2 12 8 18" />
+              </svg>
+            </a>
+          </div>
         </footer>
       </div>
+    </div>
+  );
+}
+
+function OwnershipInfoButton() {
+  const [pinned, setPinned] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
+
+  const open = pinned || hovered;
+
+  useEffect(() => {
+    if (!pinned) return;
+
+    const handlePointer = (event: MouseEvent) => {
+      if (!wrapperRef.current) return;
+      if (!wrapperRef.current.contains(event.target as Node)) {
+        setPinned(false);
+      }
+    };
+    const handleKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setPinned(false);
+    };
+
+    document.addEventListener('mousedown', handlePointer);
+    document.addEventListener('keydown', handleKey);
+    return () => {
+      document.removeEventListener('mousedown', handlePointer);
+      document.removeEventListener('keydown', handleKey);
+    };
+  }, [pinned]);
+
+  return (
+    <div
+      ref={wrapperRef}
+      className="relative"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <button
+        type="button"
+        onClick={() => setPinned((prev) => !prev)}
+        aria-label="Ownership information"
+        aria-expanded={open}
+        title="Ownership information"
+        className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-zinc-800 text-zinc-200 transition-colors hover:bg-sky-600 hover:text-white"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="h-4 w-4"
+          aria-hidden
+        >
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="16" x2="12" y2="12" />
+          <line x1="12" y1="8" x2="12.01" y2="8" />
+        </svg>
+      </button>
+      {open && (
+        <div
+          role="tooltip"
+          className="absolute bottom-full right-0 z-20 mb-2 w-64 rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-xs leading-snug text-zinc-300 shadow-xl"
+        >
+          This tool is owned by{' '}
+          <span className="font-semibold text-white">
+            GEWCI (Great Emmanuel Worship Church Inc.)
+          </span>
+          . All rights reserved to the owner.
+        </div>
+      )}
     </div>
   );
 }
