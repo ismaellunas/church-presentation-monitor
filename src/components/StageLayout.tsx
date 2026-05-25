@@ -23,11 +23,11 @@ export function StageLayout({
 }: Props) {
   return (
     <div className="flex h-screen w-screen items-center justify-center bg-black overflow-hidden">
-      <div className="relative aspect-video w-full max-h-screen max-w-[177.78vh] grid grid-rows-2 bg-black">
-        <div className="row-span-1 min-h-0">{screenMirror}</div>
-        <div className="row-span-1 min-h-0 grid grid-cols-2">
-          <div className="col-span-1 min-w-0">{currentTimePanel}</div>
-          <div className="col-span-1 min-w-0">{countdownPanel}</div>
+      <div className="relative aspect-video w-full max-h-screen max-w-[177.78vh] grid grid-rows-[1fr_28vh] bg-black">
+        <div className="min-h-0">{screenMirror}</div>
+        <div className="min-h-0 grid grid-cols-2">
+          <div className="min-w-0">{currentTimePanel}</div>
+          <div className="min-w-0">{countdownPanel}</div>
         </div>
 
         {presentationMode && (
